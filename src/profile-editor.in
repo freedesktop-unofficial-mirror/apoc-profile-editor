@@ -1,0 +1,5 @@
+#!/bin/sh
+
+JAVA=@JAVA@
+
+$JAVA -jar @APOCDIR@/apoc_peditor.jar com.sun.apoc.tools.profileeditor.ProfileEditor

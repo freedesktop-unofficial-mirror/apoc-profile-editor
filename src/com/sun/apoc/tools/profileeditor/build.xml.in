@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+#*************************************************************************
+#*
+#*    $RCSfile: build.xml,v $
+#*
+#*    last change       $Author: cm122549 $ $Date: 2007/01/18 12:55:19 $
+#*    $Revision: 1.12 $
+#*
+#*    Copyright 2004, Sun Microsystems, Inc. All Rights Reserved.
+#*
+#*************************************************************************
+-->
+<project name="apoc_profile_editor" default="main" basedir="../../../../../../">
+    
+    <property name="jarname" value="apoc_peditor.jar"/>
+    <property name="package" value="com/sun/apoc/tools/profileeditor"/>
+
+    <!-- The name of the out/dist directory (e.g. "out" or "unxsols4.pro") -->
+    <property name="inpath" value="build"/>
+    <property name="build.dir" value="${inpath}"/>
+    <property name="build.class" value="${build.dir}/class"/>
+    <!--property name="build.doc" value="${build.dir}/doc/profileeditor"/-->
+
+    <path id="classpath">
+	<pathelement location="@SPIJDK@"/>
+    </path>
+
+    <target name="prepare">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.class}"/>
+    </target>
+
+    <target name="compile" depends="prepare">
+      <javac  srcdir="src"
+    	      destdir="${build.class}"
+    	      classpathref="classpath"
+              debug="${debug}">
+        <include name="${package}/*/*.java"/>
+	<include name="${package}/*.java"/>
+      </javac> 
+    </target>
+   
+    <target name="jar" depends="compile">
+      <jar jarfile="${build.class}/${jarname}"
+             basedir="${build.class}">
+        <include name="${package}/*/*"/>
+	<include name="${package}/*"/>
+        <manifest>
+          <attribute name="Main-Class" value="com.sun.apoc.tools.profileeditor.ProfileEditor"/> 
+          <attribute name="Class-Path" value="@SPIJDK@"/>
+        </manifest>
+      </jar>
+    </target>
+    
+    <target name="main" depends="jar"/>  	
+    
+    <target name="clean">
+        <delete file="${build.class}/${jarname}"/>
+        <delete dir="${build.class}/${package}"/>
+    </target>
+
+</project>
